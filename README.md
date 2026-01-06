@@ -1,4 +1,4 @@
-## Account Trigger: Projeto de Estudo Apex 💡
+## apex-triggers
 
 Este repositório tem como objetivo demonstrar o uso de Apex Triggers com delegação de lógica para uma classe handler, seguindo boas práticas básicas da plataforma Salesforce, com foco em bulkification, governor limits, trigger context variables e testes unitários.
 
