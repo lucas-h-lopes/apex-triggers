@@ -1,18 +1,21 @@
-# Salesforce DX Project: Next Steps
+## Account Trigger: Projeto de Estudo Apex 💡
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+Este repositório tem como objetivo demonstrar o uso de Apex Triggers com delegação de lógica para uma classe handler, seguindo boas práticas básicas da plataforma Salesforce, com foco em bulkification, governor limits, trigger context variables e testes unitários.
 
-## How Do You Plan to Deploy Your Changes?
+## Funcionalidades Implementadas 
+#### AccountTrigger
+- Trigger associada ao objeto Account, escutando os eventos **before insert**, **after insert** e **before delete**. Age como ponto de entrada, repassando a lógica de negócio para a classe handler.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+#### AccountHandler
+- Classe Apex que centraliza a lógica de negócio relacionada à Account, disponibilizando os métodos utilizados na trigger:
+  - `handleBeforeInsert` Valida se o campo Phone está preenchido, caso não esteja, impede a inserção utilizando addError.
+  - `handleAfterInsert`  Cria automaticamente uma Task para cada Account inserida.
+  - `handleBeforeDelete` Impede a exclusão de Accounts que possuam Contacts relacionados. O bloqueio é dado via addError, informando os IDs dos contatos associados.
 
-## Configure Your Salesforce DX Project
+## Testes Unitários 
+A classe AccountHandlerTest valida os principais cenários do handler de Account. Os cenários incluem: 
+- Inserção de Accounts válidas.
+- Erro ao inserir Accounts sem Phone.
+- Bloqueio de exclusão de Accounts com Contacts relacionados.
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Os testes utilizam @testSetup para criar dados base e executam DML para acionamento da trigger, realizando validação com asserções `System.assert`.
