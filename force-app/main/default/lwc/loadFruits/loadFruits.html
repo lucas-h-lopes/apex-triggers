@@ -4,6 +4,11 @@
         <template lwc:if={error}>
             <c-error-panel error={error}></c-error-panel>
         </template>
+        <template lwc:if={isLoading}>
+            <div style="position: relative;min-height: 100px;">
+                <lightning-spinner size="small"></lightning-spinner>
+            </div>
+        </template>
         <template lwc:elseif={hasFruits}>
             <div>
                 <lightning-combobox class="fruitSelect" name="fruitNames" label="Fruta a consultar" options={fruitOptions} value="default" onchange={handleChange} placeholder="Selecione uma fruta" required></lightning-combobox>

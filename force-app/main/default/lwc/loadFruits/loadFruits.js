@@ -7,16 +7,19 @@ export default class LoadFruits extends LightningElement {
     fruitOptions = [];
     selectedFruit = {};
     error;
+    isLoading = true;
 
     @wire(getAllFruits)
     wiredFruits({data, error}){
         if(data){
             this.fruitOptions = data.map(x => {return {label: x.name, value: x.id.toString()}});
+            this.isLoading = false;
             this.error = null;
         }else if (error){
             this.fruitOptions = [];
             this.error = error;
             console.log(error);
+              this.isLoading = false;
         }
     }
 
