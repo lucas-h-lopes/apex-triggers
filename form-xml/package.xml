@@ -5,7 +5,6 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>*</members>
         <members>Assign_Admin_to_Project</members>
         <members>CreateProjectForm</members>
         <name>Flow</name>
